@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_PC_02_Module3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="detail_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="header_order_id" Type="int" Nullable="false" />
+          <Property Name="menu_id" Type="int" Nullable="false" />
+          <Property Name="order_price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="order_placed_time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="header_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_made_time" Type="datetime" Nullable="false" />
+          <Property Name="table_number" Type="int" Nullable="false" />
+          <Property Name="customer_name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="menu_category_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" />
+          <Property Name="is_favourite" Type="bit" />
+        </EntityType>
+        <EntityType Name="menu_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="header_order_id" Type="int" Nullable="false" />
+          <Property Name="promotion_id" Type="int" />
+          <Property Name="payment_type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="amount_to_pay" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="amount_paid" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="promotion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="discount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="minimum_spent" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="start_time" Type="datetime" Nullable="false" />
+          <Property Name="end_time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__detail_or__heade__117F9D94">
+          <End Role="header_order" Type="Self.header_order" Multiplicity="1" />
+          <End Role="detail_order" Type="Self.detail_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="detail_order">
+              <PropertyRef Name="header_order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__detail_or__menu___1273C1CD">
+          <End Role="menu" Type="Self.menu" Multiplicity="1" />
+          <End Role="detail_order" Type="Self.detail_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="detail_order">
+              <PropertyRef Name="menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__menu__menu_categ__0519C6AF">
+          <End Role="menu_category" Type="Self.menu_category" Multiplicity="1" />
+          <End Role="menu" Type="Self.menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="menu">
+              <PropertyRef Name="menu_category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payment__header___173876EA">
+          <End Role="header_order" Type="Self.header_order" Multiplicity="1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="header_order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payment__promoti__182C9B23">
+          <End Role="promotion" Type="Self.promotion" Multiplicity="0..1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="promotion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="promotion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_PC_02_Module3ModelStoreContainer">
+          <EntitySet Name="detail_order" EntityType="Self.detail_order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="header_order" EntityType="Self.header_order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="menu" EntityType="Self.menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="menu_category" EntityType="Self.menu_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payment" EntityType="Self.payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="promotion" EntityType="Self.promotion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__detail_or__heade__117F9D94" Association="Self.FK__detail_or__heade__117F9D94">
+            <End Role="header_order" EntitySet="header_order" />
+            <End Role="detail_order" EntitySet="detail_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__detail_or__menu___1273C1CD" Association="Self.FK__detail_or__menu___1273C1CD">
+            <End Role="menu" EntitySet="menu" />
+            <End Role="detail_order" EntitySet="detail_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__menu__menu_categ__0519C6AF" Association="Self.FK__menu__menu_categ__0519C6AF">
+            <End Role="menu_category" EntitySet="menu_category" />
+            <End Role="menu" EntitySet="menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payment__header___173876EA" Association="Self.FK__payment__header___173876EA">
+            <End Role="header_order" EntitySet="header_order" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payment__promoti__182C9B23" Association="Self.FK__payment__promoti__182C9B23">
+            <End Role="promotion" EntitySet="promotion" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_PC_02_Module3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="detail_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="header_order_id" Type="Int32" Nullable="false" />
+          <Property Name="menu_id" Type="Int32" Nullable="false" />
+          <Property Name="order_price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="order_placed_time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="header_order" Relationship="Self.FK__detail_or__heade__403A8C7D" FromRole="detail_order" ToRole="header_order" />
+          <NavigationProperty Name="menu" Relationship="Self.FK__detail_or__menu___412EB0B6" FromRole="detail_order" ToRole="menu" />
+        </EntityType>
+        <EntityType Name="header_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_made_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="table_number" Type="Int32" Nullable="false" />
+          <Property Name="customer_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="detail_order" Relationship="Self.FK__detail_or__heade__403A8C7D" FromRole="header_order" ToRole="detail_order" />
+          <NavigationProperty Name="payments" Relationship="Self.FK__payment__header___440B1D61" FromRole="header_order" ToRole="payment" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="menu_category_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="is_favourite" Type="Boolean" />
+          <NavigationProperty Name="detail_order" Relationship="Self.FK__detail_or__menu___412EB0B6" FromRole="menu" ToRole="detail_order" />
+          <NavigationProperty Name="menu_category" Relationship="Self.FK__menu__menu_categ__398D8EEE" FromRole="menu" ToRole="menu_category" />
+        </EntityType>
+        <EntityType Name="menu_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="menus" Relationship="Self.FK__menu__menu_categ__398D8EEE" FromRole="menu_category" ToRole="menu" />
+        </EntityType>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="header_order_id" Type="Int32" Nullable="false" />
+          <Property Name="promotion_id" Type="Int32" />
+          <Property Name="payment_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="amount_to_pay" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="amount_paid" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="header_order" Relationship="Self.FK__payment__header___440B1D61" FromRole="payment" ToRole="header_order" />
+          <NavigationProperty Name="promotion" Relationship="Self.FK__payment__promoti__44FF419A" FromRole="payment" ToRole="promotion" />
+        </EntityType>
+        <EntityType Name="promotion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="discount" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="minimum_spent" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="start_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="payments" Relationship="Self.FK__payment__promoti__44FF419A" FromRole="promotion" ToRole="payment" />
+        </EntityType>
+        <Association Name="FK__detail_or__heade__403A8C7D">
+          <End Role="header_order" Type="Self.header_order" Multiplicity="1" />
+          <End Role="detail_order" Type="Self.detail_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="detail_order">
+              <PropertyRef Name="header_order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__detail_or__menu___412EB0B6">
+          <End Role="menu" Type="Self.menu" Multiplicity="1" />
+          <End Role="detail_order" Type="Self.detail_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="detail_order">
+              <PropertyRef Name="menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payment__header___440B1D61">
+          <End Role="header_order" Type="Self.header_order" Multiplicity="1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="header_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="header_order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__menu__menu_categ__398D8EEE">
+          <End Role="menu_category" Type="Self.menu_category" Multiplicity="1" />
+          <End Role="menu" Type="Self.menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="menu">
+              <PropertyRef Name="menu_category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payment__promoti__44FF419A">
+          <End Role="promotion" Type="Self.promotion" Multiplicity="0..1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="promotion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="promotion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_PC_02_Module3Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="detail_order" EntityType="Self.detail_order" />
+          <EntitySet Name="header_order" EntityType="Self.header_order" />
+          <EntitySet Name="menus" EntityType="Self.menu" />
+          <EntitySet Name="menu_category" EntityType="Self.menu_category" />
+          <EntitySet Name="payments" EntityType="Self.payment" />
+          <EntitySet Name="promotions" EntityType="Self.promotion" />
+          <AssociationSet Name="FK__detail_or__heade__403A8C7D" Association="Self.FK__detail_or__heade__403A8C7D">
+            <End Role="header_order" EntitySet="header_order" />
+            <End Role="detail_order" EntitySet="detail_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__detail_or__menu___412EB0B6" Association="Self.FK__detail_or__menu___412EB0B6">
+            <End Role="menu" EntitySet="menus" />
+            <End Role="detail_order" EntitySet="detail_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payment__header___440B1D61" Association="Self.FK__payment__header___440B1D61">
+            <End Role="header_order" EntitySet="header_order" />
+            <End Role="payment" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__menu__menu_categ__398D8EEE" Association="Self.FK__menu__menu_categ__398D8EEE">
+            <End Role="menu_category" EntitySet="menu_category" />
+            <End Role="menu" EntitySet="menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payment__promoti__44FF419A" Association="Self.FK__payment__promoti__44FF419A">
+            <End Role="promotion" EntitySet="promotions" />
+            <End Role="payment" EntitySet="payments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_PC_02_Module3ModelStoreContainer" CdmEntityContainer="DB_PC_02_Module3Entities">
+          <EntitySetMapping Name="detail_order">
+            <EntityTypeMapping TypeName="DB_PC_02_Module3Model.detail_order">
+              <MappingFragment StoreEntitySet="detail_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="header_order_id" ColumnName="header_order_id" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="order_price" ColumnName="order_price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="order_placed_time" ColumnName="order_placed_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="header_order">
+            <EntityTypeMapping TypeName="DB_PC_02_Module3Model.header_order">
+              <MappingFragment StoreEntitySet="header_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="order_made_time" ColumnName="order_made_time" />
+                <ScalarProperty Name="table_number" ColumnName="table_number" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menus">
+            <EntityTypeMapping TypeName="DB_PC_02_Module3Model.menu">
+              <MappingFragment StoreEntitySet="menu">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="menu_category_id" ColumnName="menu_category_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="is_favourite" ColumnName="is_favourite" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menu_category">
+            <EntityTypeMapping TypeName="DB_PC_02_Module3Model.menu_category">
+              <MappingFragment StoreEntitySet="menu_category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payments">
+            <EntityTypeMapping TypeName="DB_PC_02_Module3Model.payment">
+              <MappingFragment StoreEntitySet="payment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="header_order_id" ColumnName="header_order_id" />
+                <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
+                <ScalarProperty Name="payment_type" ColumnName="payment_type" />
+                <ScalarProperty Name="amount_to_pay" ColumnName="amount_to_pay" />
+                <ScalarProperty Name="amount_paid" ColumnName="amount_paid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="promotions">
+            <EntityTypeMapping TypeName="DB_PC_02_Module3Model.promotion">
+              <MappingFragment StoreEntitySet="promotion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="minimum_spent" ColumnName="minimum_spent" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

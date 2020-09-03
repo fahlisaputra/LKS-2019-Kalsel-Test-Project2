@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_PC_02_Module3ModelStoreContainer" CdmEntityContainer="DB_PC_02_Module3Entities">
+    <EntitySetMapping Name="detail_order">
+      <EntityTypeMapping TypeName="DB_PC_02_Module3Model.detail_order">
+        <MappingFragment StoreEntitySet="detail_order">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="header_order_id" ColumnName="header_order_id" />
+          <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+          <ScalarProperty Name="order_price" ColumnName="order_price" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="order_placed_time" ColumnName="order_placed_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="header_order">
+      <EntityTypeMapping TypeName="DB_PC_02_Module3Model.header_order">
+        <MappingFragment StoreEntitySet="header_order">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="order_made_time" ColumnName="order_made_time" />
+          <ScalarProperty Name="table_number" ColumnName="table_number" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="menus">
+      <EntityTypeMapping TypeName="DB_PC_02_Module3Model.menu">
+        <MappingFragment StoreEntitySet="menu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="menu_category_id" ColumnName="menu_category_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="is_favourite" ColumnName="is_favourite" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="menu_category">
+      <EntityTypeMapping TypeName="DB_PC_02_Module3Model.menu_category">
+        <MappingFragment StoreEntitySet="menu_category">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payments">
+      <EntityTypeMapping TypeName="DB_PC_02_Module3Model.payment">
+        <MappingFragment StoreEntitySet="payment">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="header_order_id" ColumnName="header_order_id" />
+          <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
+          <ScalarProperty Name="payment_type" ColumnName="payment_type" />
+          <ScalarProperty Name="amount_to_pay" ColumnName="amount_to_pay" />
+          <ScalarProperty Name="amount_paid" ColumnName="amount_paid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="promotions">
+      <EntityTypeMapping TypeName="DB_PC_02_Module3Model.promotion">
+        <MappingFragment StoreEntitySet="promotion">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="discount" ColumnName="discount" />
+          <ScalarProperty Name="minimum_spent" ColumnName="minimum_spent" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="end_time" ColumnName="end_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
